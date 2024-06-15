@@ -2,9 +2,9 @@ package org.khasanof.processor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.khasanof.context.session.ReactiveWebsocketSessionContext;
+import org.khasanof.flow.output.OutputDataFlow;
 import org.khasanof.model.WebSocketSessionFacade;
 import org.khasanof.processor.input.InputDataProcessor;
-import org.khasanof.processor.session.ReactiveSessionDataSender;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
@@ -37,16 +37,13 @@ public class DefaultReactiveWebsocketProcessor implements ReactiveWebsocketProce
     @Override
     public Flux<WebSocketMessage> process(WebSocketSessionFacade facade) {
         WebSocketSession webSocketSession = facade.getWebSocketSession();
-        ReactiveSessionDataSender reactiveSessionDataSender = facade.getReactiveSessionDataSender();
+        OutputDataFlow outputDataFlow = facade.getOutputDataFlow();
 
         return inputDataProcessor.input(
                         webSocketSession.receive()
                                 .doOnNext(webSocketMessage -> log.info("receive new a message : {}", webSocketMessage.getPayloadAsText()))
-                ).switchMap(message -> reactiveSessionDataSender.output())
-                .doFinally(signalType -> reactiveWebsocketSessionContext.removeSession(facade.getSessionId()));
-    }
-
-    private Mono<Void> simpleMethod() {
-        return Mono.empty();
+                                .doFinally(signalType -> reactiveWebsocketSessionContext.removeSession(facade.getSessionId()))
+                ).switchMap(message -> outputDataFlow.flowAsFlux())
+                .onErrorResume(throwable -> Mono.empty());
     }
 }

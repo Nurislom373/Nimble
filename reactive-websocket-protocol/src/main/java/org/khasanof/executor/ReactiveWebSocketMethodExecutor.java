@@ -2,6 +2,7 @@ package org.khasanof.executor;
 
 import org.khasanof.model.method.WsProtocolMethod;
 import org.khasanof.model.ws.WsRequest;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Nurislom
@@ -15,5 +16,5 @@ public interface ReactiveWebSocketMethodExecutor {
      * @param method
      * @param request
      */
-    void execute(WsProtocolMethod method, WsRequest request);
+    Mono<Void> execute(WsProtocolMethod method, Mono<WsRequest> request);
 }

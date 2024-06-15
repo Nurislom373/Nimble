@@ -5,6 +5,7 @@ import org.khasanof.ReactiveWebsocketMessageTemplate;
 import org.khasanof.annotation.MessageController;
 import org.khasanof.annotation.MessageMapping;
 import org.khasanof.model.ws.WsRequest;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Nurislom
@@ -22,8 +23,9 @@ public class WebSocketController {
     }
 
     @MessageMapping
-    public void handle(WsRequest request) {
-        log.info("request : {}", request);
-        messageTemplate.sendMessage("Hello World!");
+    public Mono<Void> handle(Mono<WsRequest> request) {
+        return request.doOnNext(wsRequest -> log.info("ws request : {}", wsRequest))
+                .doOnNext(wsRequest -> messageTemplate.sendMessage("Hello World!"))
+                .then();
     }
 }

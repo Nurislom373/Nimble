@@ -1,7 +1,7 @@
 package org.khasanof.model;
 
 import lombok.*;
-import org.khasanof.processor.session.ReactiveSessionDataSender;
+import org.khasanof.flow.output.OutputDataFlow;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 /**
@@ -17,6 +17,6 @@ import org.springframework.web.reactive.socket.WebSocketSession;
 public class WebSocketSessionFacade {
 
     private String sessionId;
+    private OutputDataFlow outputDataFlow;
     private WebSocketSession webSocketSession;
-    private ReactiveSessionDataSender reactiveSessionDataSender;
 }

@@ -32,23 +32,31 @@ public class DefaultSendOutputDataStrategy implements SendOutputDataStrategy {
         this.reactiveWebsocketSessionContext = reactiveWebsocketSessionContext;
     }
 
+    /**
+     *
+     * @param message
+     */
     @Override
     public void send(Object message) {
         WebSocketMessage webSocketMessage = toWebSocketMessage(message);
-
         reactiveWebsocketSessionContext.getSessions()
                 .stream()
-                .map(WebSocketSessionFacade::getReactiveSessionDataSender)
-                .forEach(reactiveSessionDataSender -> reactiveSessionDataSender.emitNext(webSocketMessage));
+                .map(WebSocketSessionFacade::getOutputDataFlow)
+                .forEach(outputDataFlow -> outputDataFlow.emitNext(webSocketMessage));
     }
 
+    /**
+     *
+     * @param sessionId
+     * @param message
+     */
     @Override
     public void send(String sessionId, Object message) {
         reactiveWebsocketSessionContext.getSession(sessionId)
-                .map(WebSocketSessionFacade::getReactiveSessionDataSender)
-                .ifPresent(reactiveSessionDataSender -> {
+                .map(WebSocketSessionFacade::getOutputDataFlow)
+                .ifPresent(outputDataFlow -> {
                     WebSocketMessage webSocketMessage = toWebSocketMessage(message);
-                    reactiveSessionDataSender.emitNext(webSocketMessage);
+                    outputDataFlow.emitNext(webSocketMessage);
                 });
     }
 

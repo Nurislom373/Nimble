@@ -1,7 +1,7 @@
 package org.khasanof.factories;
 
+import org.khasanof.flow.output.OutputDataFlow;
 import org.khasanof.model.WebSocketSessionFacade;
-import org.khasanof.processor.session.DefaultReactiveSessionDataSender;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
@@ -24,7 +24,7 @@ public class DefaultRxWebSocketSessionFacadeFactory implements RxWebSocketSessio
         facade.setWebSocketSession(session);
 
         facade.setSessionId(session.getId());
-        facade.setReactiveSessionDataSender(new DefaultReactiveSessionDataSender());
+        facade.setOutputDataFlow(new OutputDataFlow());
         return facade;
     }
 }

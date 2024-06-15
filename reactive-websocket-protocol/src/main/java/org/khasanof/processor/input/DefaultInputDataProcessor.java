@@ -4,11 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.khasanof.context.method.ReactiveWebSocketMethodContext;
 import org.khasanof.converter.WebSocketMessageConverter;
 import org.khasanof.executor.ReactiveWebSocketMethodExecutor;
+import org.khasanof.model.method.WsProtocolMethod;
 import org.khasanof.model.ws.WsRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 /**
  * @author Nurislom
@@ -39,20 +42,18 @@ public class DefaultInputDataProcessor implements InputDataProcessor {
     @Override
     public Flux<WebSocketMessage> input(Flux<WebSocketMessage> messages) {
         return messages
-                .doOnNext(message -> {
+                .flatMap(message -> {
                     WsRequest request = webSocketMessageConverter.convert(message);
                     log.info("Successfully converted! : {}", request);
-                    if (reactiveWebSocketMethodContext.existMethod(request.getMethod())) {
-                        reactiveWebSocketMethodContext.getMethod(request.getMethod())
-                                .ifPresent(wsProtocolMethod -> {
-                                    log.info("WsProtocolMethod found : {}", wsProtocolMethod);
-                                    reactiveWebSocketMethodExecutor.execute(wsProtocolMethod, request);
-                                });
-                    }
-                });
-    }
 
-    private Mono<Void> simpleMethod() {
-        return Mono.empty();
+                    if (reactiveWebSocketMethodContext.existMethod(request.getMethod())) {
+                        Optional<WsProtocolMethod> wsProtocolMethod = reactiveWebSocketMethodContext.getMethod(request.getMethod());
+                        WsProtocolMethod protocolMethod = wsProtocolMethod.orElseThrow();
+
+                        return reactiveWebSocketMethodExecutor.execute(protocolMethod, Mono.just(request))
+                                .thenReturn(message);
+                    }
+                    return Mono.just(message);
+                });
     }
 }
