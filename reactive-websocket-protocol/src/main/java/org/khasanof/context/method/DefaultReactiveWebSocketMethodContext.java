@@ -1,6 +1,6 @@
 package org.khasanof.context.method;
 
-import org.khasanof.model.method.WsProtocolMethod;
+import org.khasanof.model.method.WsMethod;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class DefaultReactiveWebSocketMethodContext implements ReactiveWebSocketMethodContext {
 
-    private final Map<String, WsProtocolMethod> methodMap = new ConcurrentHashMap<>();
+    private final Map<String, WsMethod> methodMap = new ConcurrentHashMap<>();
 
     /**
      *
@@ -22,7 +22,7 @@ public class DefaultReactiveWebSocketMethodContext implements ReactiveWebSocketM
      * @param method
      */
     @Override
-    public void addMethod(String methodName, WsProtocolMethod method) {
+    public void addMethod(String methodName, WsMethod method) {
         this.methodMap.put(methodName, method);
     }
 
@@ -32,7 +32,7 @@ public class DefaultReactiveWebSocketMethodContext implements ReactiveWebSocketM
      * @return
      */
     @Override
-    public Optional<WsProtocolMethod> getMethod(String methodName) {
+    public Optional<WsMethod> getMethod(String methodName) {
         return Optional.ofNullable(this.methodMap.get(methodName));
     }
 
@@ -51,7 +51,7 @@ public class DefaultReactiveWebSocketMethodContext implements ReactiveWebSocketM
      * @return
      */
     @Override
-    public Set<WsProtocolMethod> getMethods() {
+    public Set<WsMethod> getMethods() {
         return new HashSet<>(this.methodMap.values());
     }
 }

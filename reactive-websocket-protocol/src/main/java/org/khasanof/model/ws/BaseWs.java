@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class WsMethod {
+public abstract class BaseWs {
 
     private String id;
     private String method;

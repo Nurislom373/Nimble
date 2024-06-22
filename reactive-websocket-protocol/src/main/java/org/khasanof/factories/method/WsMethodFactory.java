@@ -1,6 +1,6 @@
-package org.khasanof.factories;
+package org.khasanof.factories.method;
 
-import org.khasanof.model.method.WsProtocolMethod;
+import org.khasanof.model.method.WsMethod;
 
 import java.lang.reflect.Method;
 
@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * @see org.khasanof.factories
  * @since 6/9/2024 7:06 AM
  */
-public interface WsProtocolMethodFactory {
+public interface WsMethodFactory {
 
     /**
      *
@@ -17,5 +17,5 @@ public interface WsProtocolMethodFactory {
      * @param method
      * @return
      */
-    WsProtocolMethod create(Object instance, Method method);
+    WsMethod create(Object instance, Method method);
 }

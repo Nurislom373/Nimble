@@ -15,10 +15,11 @@ import java.lang.reflect.Method;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class WsProtocolMethod {
+public class WsMethod {
 
     private Method method;
     private Object instance;
     private String methodName;
     private Annotation annotation;
+    private boolean isDefaultMethod;
 }

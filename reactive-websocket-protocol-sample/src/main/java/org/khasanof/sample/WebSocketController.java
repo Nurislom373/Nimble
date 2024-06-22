@@ -25,7 +25,7 @@ public class WebSocketController {
     @MessageMapping
     public Mono<Void> handle(Mono<WsRequest> request) {
         return request.doOnNext(wsRequest -> log.info("ws request : {}", wsRequest))
-                .doOnNext(wsRequest -> messageTemplate.sendMessage("Hello World!"))
+                .doOnNext(wsRequest -> messageTemplate.sendMessageOnlyUser("Hello World!"))
                 .then();
     }
 }

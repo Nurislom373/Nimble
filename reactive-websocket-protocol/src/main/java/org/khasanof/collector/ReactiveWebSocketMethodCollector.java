@@ -1,10 +1,10 @@
 package org.khasanof.collector;
 
-import org.khasanof.annotation.MessageController;
-import org.khasanof.annotation.MessageMapping;
+import org.khasanof.annotation.ReactiveWsController;
+import org.khasanof.annotation.ReactiveWsMethod;
 import org.khasanof.context.method.ReactiveWebSocketMethodContext;
-import org.khasanof.factories.WsProtocolMethodFactory;
-import org.khasanof.model.method.WsProtocolMethod;
+import org.khasanof.factories.method.WsMethodFactory;
+import org.khasanof.model.method.WsMethod;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -20,32 +20,43 @@ import java.util.Map;
 public class ReactiveWebSocketMethodCollector implements Collector {
 
     private final ApplicationContext applicationContext;
-    private final WsProtocolMethodFactory wsProtocolMethodFactory;
+    private final WsMethodFactory wsMethodFactory;
     private final ReactiveWebSocketMethodContext reactiveWebSocketMethodContext;
 
     public ReactiveWebSocketMethodCollector(ApplicationContext applicationContext,
-                                            WsProtocolMethodFactory wsProtocolMethodFactory,
+                                            WsMethodFactory wsMethodFactory,
                                             ReactiveWebSocketMethodContext reactiveWebSocketMethodContext) {
 
         this.applicationContext = applicationContext;
-        this.wsProtocolMethodFactory = wsProtocolMethodFactory;
+        this.wsMethodFactory = wsMethodFactory;
         this.reactiveWebSocketMethodContext = reactiveWebSocketMethodContext;
     }
 
+    /**
+     * Collect methods annotated with {@link ReactiveWsMethod}
+     */
     @Override
     public void collect() {
-        Map<String, Object> beans = applicationContext.getBeansWithAnnotation(MessageController.class);
+        Map<String, Object> beans = applicationContext.getBeansWithAnnotation(ReactiveWsController.class);
         beans.forEach((beanName, bean) -> extractMethods(bean));
     }
 
     private void extractMethods(Object bean) {
         Class<?> beanClass = bean.getClass();
         Method[] declaredMethods = beanClass.getDeclaredMethods();
+        iterateDeclaredMethods(bean, declaredMethods);
+    }
+
+    private void iterateDeclaredMethods(Object bean, Method[] declaredMethods) {
         for (Method declaredMethod : declaredMethods) {
-            if (declaredMethod.isAnnotationPresent(MessageMapping.class)) {
-                WsProtocolMethod wsProtocolMethod = wsProtocolMethodFactory.create(bean, declaredMethod);
-                reactiveWebSocketMethodContext.addMethod(declaredMethod.getName(), wsProtocolMethod);
-            }
+            checkMethodAndAddContext(bean, declaredMethod);
+        }
+    }
+
+    private void checkMethodAndAddContext(Object bean, Method declaredMethod) {
+        if (declaredMethod.isAnnotationPresent(ReactiveWsMethod.class)) {
+            WsMethod wsMethod = wsMethodFactory.create(bean, declaredMethod);
+            reactiveWebSocketMethodContext.addMethod(wsMethod.getMethodName(), wsMethod);
         }
     }
 }

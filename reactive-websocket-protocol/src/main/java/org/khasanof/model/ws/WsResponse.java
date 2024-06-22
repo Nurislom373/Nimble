@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class WsResponse extends WsMethod {
+public class WsResponse extends BaseWs {
 
     private Object data;
     private String message;

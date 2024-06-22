@@ -1,6 +1,6 @@
 package org.khasanof.context.method;
 
-import org.khasanof.model.method.WsProtocolMethod;
+import org.khasanof.model.method.WsMethod;
 
 import java.util.Optional;
 import java.util.Set;
@@ -17,14 +17,14 @@ public interface ReactiveWebSocketMethodContext {
      * @param methodName
      * @param method
      */
-    void addMethod(String methodName, WsProtocolMethod method);
+    void addMethod(String methodName, WsMethod method);
 
     /**
      *
      * @param methodName
      * @return
      */
-    Optional<WsProtocolMethod> getMethod(String methodName);
+    Optional<WsMethod> getMethod(String methodName);
 
     /**
      *
@@ -37,5 +37,5 @@ public interface ReactiveWebSocketMethodContext {
      *
      * @return
      */
-    Set<WsProtocolMethod> getMethods();
+    Set<WsMethod> getMethods();
 }

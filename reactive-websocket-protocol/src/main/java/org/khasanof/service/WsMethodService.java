@@ -1,4 +1,4 @@
-package org.khasanof.executor;
+package org.khasanof.service;
 
 import org.khasanof.model.method.WsMethod;
 import org.khasanof.model.ws.WsRequest;
@@ -7,15 +7,15 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author Nurislom
- * @see org.khasanof.executor
- * @since 6/9/2024 6:56 AM
+ * @see org.khasanof.service
+ * @since 6/22/2024 7:30 PM
  */
-public interface ReactiveWebSocketMethodExecutor {
+public interface WsMethodService {
 
     /**
      *
-     * @param method
+     * @param wsMethod
      * @param request
      */
-    Mono<Void> execute(WsMethod method, Mono<WsRequestSession> request);
+    Mono<Void> execute(WsMethod wsMethod, Mono<WsRequestSession> request);
 }

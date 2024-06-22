@@ -44,7 +44,7 @@ public class ReactiveWebSocketHandler implements WebSocketHandler {
 
     private Flux<WebSocketMessage> internalHandler(WebSocketSession session) {
         WebSocketSessionFacade facade = getRxWebSocketSessionFacade(session);
-        return reactiveWebsocketProcessor.process(facade);
+        return reactiveWebsocketProcessor.process(facade, session);
     }
 
     private WebSocketSessionFacade getRxWebSocketSessionFacade(WebSocketSession session) {

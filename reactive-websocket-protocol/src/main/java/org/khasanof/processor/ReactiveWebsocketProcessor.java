@@ -2,6 +2,7 @@ package org.khasanof.processor;
 
 import org.khasanof.model.WebSocketSessionFacade;
 import org.springframework.web.reactive.socket.WebSocketMessage;
+import org.springframework.web.reactive.socket.WebSocketSession;
 import reactor.core.publisher.Flux;
 
 /**
@@ -16,5 +17,5 @@ public interface ReactiveWebsocketProcessor {
      * @param facade
      * @return
      */
-    Flux<WebSocketMessage> process(WebSocketSessionFacade facade);
+    Flux<WebSocketMessage> process(WebSocketSessionFacade facade, WebSocketSession session);
 }

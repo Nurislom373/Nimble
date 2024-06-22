@@ -35,15 +35,15 @@ public class DefaultReactiveWebsocketProcessor implements ReactiveWebsocketProce
      * @return
      */
     @Override
-    public Flux<WebSocketMessage> process(WebSocketSessionFacade facade) {
+    public Flux<WebSocketMessage> process(WebSocketSessionFacade facade, WebSocketSession session) {
         WebSocketSession webSocketSession = facade.getWebSocketSession();
         OutputDataFlow outputDataFlow = facade.getOutputDataFlow();
 
         return inputDataProcessor.input(
                         webSocketSession.receive()
                                 .doOnNext(webSocketMessage -> log.info("receive new a message : {}", webSocketMessage.getPayloadAsText()))
-                                .doFinally(signalType -> reactiveWebsocketSessionContext.removeSession(facade.getSessionId()))
-                ).switchMap(message -> outputDataFlow.flowAsFlux())
+                                .doFinally(signalType -> reactiveWebsocketSessionContext.removeSession(facade.getSessionId())), session)
+                .switchMap(message -> outputDataFlow.flowAsFlux())
                 .onErrorResume(throwable -> Mono.empty());
     }
 }
