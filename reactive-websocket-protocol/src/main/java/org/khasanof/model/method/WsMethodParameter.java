@@ -3,6 +3,7 @@ package org.khasanof.model.method;
 import lombok.*;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +21,7 @@ public class WsMethodParameter {
 
     private String name;
     private Class<?> type;
-    private List<Class<?>> genericTypes;
+    private Class<?> genericType;
     private List<Annotation> annotations;
 
     /**
@@ -28,6 +29,6 @@ public class WsMethodParameter {
      * @return
      */
     public boolean hasGenericTypes() {
-        return Objects.nonNull(genericTypes);
+        return Objects.nonNull(genericType);
     }
 }

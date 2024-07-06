@@ -1,9 +1,6 @@
 package org.khasanof.executor.interceptor;
 
-import org.khasanof.model.method.WsMethod;
-import org.khasanof.model.ws.WsRequestSession;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 /**
  * @author Nurislom
@@ -12,9 +9,4 @@ import reactor.core.publisher.Mono;
  */
 @Component
 public class DefaultWsMethodsExecutorInterceptor implements ExecutorInterceptor {
-
-    @Override
-    public boolean preIntercept(WsMethod wsMethod, Mono<WsRequestSession> request) {
-        return false;
-    }
 }

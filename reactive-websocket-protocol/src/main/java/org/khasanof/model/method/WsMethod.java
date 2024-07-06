@@ -24,4 +24,5 @@ public class WsMethod {
     private Annotation annotation;
     private boolean isDefaultMethod;
     private List<WsMethodParameter> parameters;
+    private WsMethodParameter payloadParameter;
 }

@@ -1,5 +1,6 @@
 package org.khasanof.executor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.khasanof.executor.mediator.ExecutorInterceptorMediator;
 import org.khasanof.model.method.WsMethod;
 import org.khasanof.model.ws.WsRequest;
@@ -20,10 +21,15 @@ import java.lang.reflect.Method;
 @SuppressWarnings({"unchecked"})
 public class DefaultReactiveWebSocketMethodExecutor implements ReactiveWebSocketMethodExecutor {
 
+    private final ObjectMapper objectMapper;
     private final WsMethodService wsMethodService;
     private final ExecutorInterceptorMediator executorInterceptorMediator;
 
-    public DefaultReactiveWebSocketMethodExecutor(WsMethodService wsMethodService, ExecutorInterceptorMediator executorInterceptorMediator) {
+    public DefaultReactiveWebSocketMethodExecutor(ObjectMapper objectMapper,
+                                                  WsMethodService wsMethodService,
+                                                  ExecutorInterceptorMediator executorInterceptorMediator) {
+
+        this.objectMapper = objectMapper;
         this.wsMethodService = wsMethodService;
         this.executorInterceptorMediator = executorInterceptorMediator;
     }
@@ -60,9 +66,16 @@ public class DefaultReactiveWebSocketMethodExecutor implements ReactiveWebSocket
 
     private Mono<Void> tryExecute(WsMethod wsMethod, Mono<WsRequestSession> request, Method method) {
         try {
-            return (Mono<Void>) method.invoke(wsMethod.getInstance(), request);
+            return (Mono<Void>) method.invoke(wsMethod.getInstance(), convertGenericType(wsMethod, request));
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Mono<Object> convertGenericType(WsMethod wsMethod, Mono<WsRequestSession> request) {
+        return request
+                .map(wsRequestSession -> objectMapper.convertValue(
+                        wsRequestSession.getData(), wsMethod.getPayloadParameter().getGenericType()
+                ));
     }
 }
