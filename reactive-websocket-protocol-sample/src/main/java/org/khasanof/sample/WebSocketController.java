@@ -2,8 +2,7 @@ package org.khasanof.sample;
 
 import lombok.extern.slf4j.Slf4j;
 import org.khasanof.ReactiveWebsocketMessageTemplate;
-import org.khasanof.annotation.MessageController;
-import org.khasanof.annotation.MessageMapping;
+import org.khasanof.annotation.*;
 import org.khasanof.model.ws.WsRequest;
 import reactor.core.publisher.Mono;
 
@@ -13,7 +12,7 @@ import reactor.core.publisher.Mono;
  * @since 6/9/2024 8:43 AM
  */
 @Slf4j
-@MessageController
+@ReactiveWsController
 public class WebSocketController {
 
     private final ReactiveWebsocketMessageTemplate messageTemplate;
@@ -22,8 +21,8 @@ public class WebSocketController {
         this.messageTemplate = messageTemplate;
     }
 
-    @MessageMapping
-    public Mono<Void> handle(Mono<WsRequest> request) {
+    @ReactiveWsMethod("handle")
+    public Mono<Void> handle(@Payload Mono<WsRequest> request) {
         return request.doOnNext(wsRequest -> log.info("ws request : {}", wsRequest))
                 .doOnNext(wsRequest -> messageTemplate.sendMessageOnlyUser("Hello World!"))
                 .then();

@@ -1,5 +1,7 @@
 package org.khasanof.annotation;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.annotation.*;
 
 /**
@@ -8,7 +10,8 @@ import java.lang.annotation.*;
  * @since 6/22/2024 6:43 PM
  */
 @Documented
-@Target(ElementType.METHOD)
+@Component
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReactiveWsController {
 }

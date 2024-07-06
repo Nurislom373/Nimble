@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author Nurislom
@@ -22,4 +23,5 @@ public class WsMethod {
     private String methodName;
     private Annotation annotation;
     private boolean isDefaultMethod;
+    private List<WsMethodParameter> parameters;
 }

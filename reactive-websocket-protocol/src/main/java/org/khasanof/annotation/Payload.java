@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * @since 6/22/2024 8:51 PM
  */
 @Documented
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Payload {
 }

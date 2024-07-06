@@ -2,11 +2,15 @@ package org.khasanof.factories.method;
 
 import org.khasanof.annotation.ReactiveWsMethod;
 import org.khasanof.model.method.WsMethod;
+import org.khasanof.model.method.WsMethodParameter;
 import org.khasanof.service.WsMethodDefinitionService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Nurislom
@@ -42,7 +46,25 @@ public class ReactiveWsMethodFactory implements WsMethodFactory {
         wsMethod.setMethodName(annotation.value());
         setIsDefaultMethod(wsMethod, annotation);
 
+        List<WsMethodParameter> parameters = getParameters(method);
+        wsMethod.setParameters(parameters);
+
         return wsMethod;
+    }
+
+    private List<WsMethodParameter> getParameters(Method method) {
+        Parameter[] parameters = method.getParameters();
+        return Arrays.stream(parameters)
+                .map(this::createWsMethodParameter)
+                .toList();
+    }
+
+    private WsMethodParameter createWsMethodParameter(Parameter parameter) {
+        WsMethodParameter methodParameter = new WsMethodParameter();
+        methodParameter.setName(parameter.getName());
+        methodParameter.setType(parameter.getType());
+        methodParameter.setAnnotations(Arrays.asList(parameter.getAnnotations()));
+        return methodParameter;
     }
 
     private ReactiveWsMethod getAnnotation(Method method) {
