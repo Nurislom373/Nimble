@@ -2,8 +2,9 @@ package org.khasanof.sample;
 
 import lombok.extern.slf4j.Slf4j;
 import org.khasanof.ReactiveWebsocketMessageTemplate;
-import org.khasanof.annotation.*;
-import org.khasanof.model.ws.WsRequest;
+import org.khasanof.annotation.Payload;
+import org.khasanof.annotation.ReactiveWsController;
+import org.khasanof.annotation.ReactiveWsMethod;
 import reactor.core.publisher.Mono;
 
 /**
