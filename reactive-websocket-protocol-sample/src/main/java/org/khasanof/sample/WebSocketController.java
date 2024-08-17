@@ -25,7 +25,7 @@ public class WebSocketController {
     @ReactiveWsMethod("handle")
     public Mono<Void> handle(@Payload Mono<Message> request) {
         return request.doOnNext(message -> log.info("message object : {}", message))
-                .doOnNext(wsRequest -> messageTemplate.sendMessageOnlyUser("Hello World!"))
+                .doOnNext(wsRequest -> messageTemplate.sendMessage("Hello World!"))
                 .then();
     }
 }

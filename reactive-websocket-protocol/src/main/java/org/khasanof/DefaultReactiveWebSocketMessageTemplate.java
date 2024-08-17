@@ -22,7 +22,7 @@ public class DefaultReactiveWebSocketMessageTemplate implements ReactiveWebsocke
      * @param message
      */
     @Override
-    public void sendMessageOnlyUser(Object message) {
+    public void sendMessage(Object message) {
         this.sendOutputDataStrategy.send(message);
     }
 
@@ -32,7 +32,7 @@ public class DefaultReactiveWebSocketMessageTemplate implements ReactiveWebsocke
      * @param message
      */
     @Override
-    public void sendMessageOnlyUser(String sessionId, Object message) {
+    public void sendMessage(String sessionId, Object message) {
         this.sendOutputDataStrategy.send(sessionId, message);
     }
 }

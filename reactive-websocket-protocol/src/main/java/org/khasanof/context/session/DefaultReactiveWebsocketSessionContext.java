@@ -28,36 +28,48 @@ public class DefaultReactiveWebsocketSessionContext implements ReactiveWebsocket
      */
     @Override
     public void addSession(WebSocketSessionFacade session) {
-        this.sessions.put(session.getSessionId(), session);
+        this.sessions.put(session.getWsSessionId(), session);
     }
 
     /**
      *
-     * @param sessionId
+     * @param wsSessionId
      * @return
      */
     @Override
-    public boolean existSession(String sessionId) {
-        return this.sessions.containsKey(sessionId);
+    public boolean existSession(String wsSessionId) {
+        return this.sessions.containsKey(wsSessionId);
     }
 
     /**
      *
-     * @param sessionId
+     * @param wsSessionId
      * @return
      */
     @Override
-    public Optional<WebSocketSessionFacade> getSession(String sessionId) {
-        return Optional.ofNullable(this.sessions.get(sessionId));
+    public boolean isSubscribed(String wsSessionId) {
+        return Optional.ofNullable(this.sessions.get(wsSessionId))
+                .map(WebSocketSessionFacade::isSubscribe)
+                .orElse(false);
     }
 
     /**
      *
-     * @param sessionId
+     * @param wsSessionId
+     * @return
      */
     @Override
-    public void removeSession(String sessionId) {
-        this.sessions.remove(sessionId);
+    public Optional<WebSocketSessionFacade> getSession(String wsSessionId) {
+        return Optional.ofNullable(this.sessions.get(wsSessionId));
+    }
+
+    /**
+     *
+     * @param wsSessionId
+     */
+    @Override
+    public void removeSession(String wsSessionId) {
+        this.sessions.remove(wsSessionId);
     }
 
     /**

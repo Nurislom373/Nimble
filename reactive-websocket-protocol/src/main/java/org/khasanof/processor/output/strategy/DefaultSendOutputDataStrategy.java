@@ -41,6 +41,7 @@ public class DefaultSendOutputDataStrategy implements SendOutputDataStrategy {
         WebSocketMessage webSocketMessage = toWebSocketMessage(message);
         reactiveWebsocketSessionContext.getSessions()
                 .stream()
+                .peek(webSocketSessionFacade -> System.out.println("webSocketSessionFacade = " + webSocketSessionFacade))
                 .map(WebSocketSessionFacade::getOutputDataFlow)
                 .forEach(outputDataFlow -> outputDataFlow.emitNext(webSocketMessage));
     }

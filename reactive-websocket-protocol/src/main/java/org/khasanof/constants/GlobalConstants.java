@@ -10,4 +10,6 @@ public abstract class GlobalConstants {
     public static final String HANDLER_MAPPING = "handlerMapping";
 
     public static final String BASE_PACKAGE = "org.khasanof";
+
+    public static final String NOT_SUB_MESSAGE = "You cannot send a message without subscribing";
 }

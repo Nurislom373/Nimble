@@ -31,7 +31,9 @@ public class DefaultReactiveWebsocketProcessor implements ReactiveWebsocketProce
     }
 
     /**
+     *
      * @param facade
+     * @param session
      * @return
      */
     @Override
@@ -41,7 +43,7 @@ public class DefaultReactiveWebsocketProcessor implements ReactiveWebsocketProce
         return inputDataProcessor.input(
                         webSocketSession.receive()
                                 .doOnNext(webSocketMessage -> log.info("receive new a message : {}", webSocketMessage.getPayloadAsText()))
-                                .doFinally(signalType -> reactiveWebsocketSessionContext.removeSession(facade.getSessionId())), session)
+                                .doFinally(signalType -> reactiveWebsocketSessionContext.removeSession(facade.getWsSessionId())), session)
                 .switchMap(message -> outputDataFlow.flowAsFlux())
                 .onErrorResume(throwable -> Mono.empty());
     }

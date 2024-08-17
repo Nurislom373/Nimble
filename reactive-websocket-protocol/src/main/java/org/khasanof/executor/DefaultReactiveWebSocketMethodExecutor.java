@@ -1,6 +1,7 @@
 package org.khasanof.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.khasanof.executor.mediator.ExecutorInterceptorMediator;
 import org.khasanof.model.method.WsMethod;
 import org.khasanof.model.ws.WsRequest;
@@ -17,6 +18,7 @@ import java.lang.reflect.Method;
  * @see org.khasanof.executor
  * @since 6/9/2024 6:57 AM
  */
+@Slf4j
 @Component
 @SuppressWarnings({"unchecked"})
 public class DefaultReactiveWebSocketMethodExecutor implements ReactiveWebSocketMethodExecutor {
@@ -49,8 +51,10 @@ public class DefaultReactiveWebSocketMethodExecutor implements ReactiveWebSocket
 
     private Mono<Void> executeInternal(WsMethod wsMethod, Mono<WsRequestSession> request) {
         if (wsMethod.isDefaultMethod()) {
+            log.info("Is Default Ws Method");
             return wsMethodService.execute(wsMethod, request);
         }
+        log.info("Is Client Ws Method");
         return executeWsRequest(wsMethod, request);
     }
 

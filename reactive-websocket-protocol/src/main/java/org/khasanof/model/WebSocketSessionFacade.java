@@ -17,6 +17,7 @@ import org.springframework.web.reactive.socket.WebSocketSession;
 public class WebSocketSessionFacade {
 
     private String sessionId;
+    private String wsSessionId;
     private boolean isSubscribe;
     private OutputDataFlow outputDataFlow;
     private WebSocketSession webSocketSession;

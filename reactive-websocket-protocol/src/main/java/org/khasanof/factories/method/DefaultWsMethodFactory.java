@@ -1,6 +1,7 @@
 package org.khasanof.factories.method;
 
 import org.khasanof.model.method.WsMethod;
+import org.khasanof.processor.WsMethodProcessor;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -22,9 +23,20 @@ public class DefaultWsMethodFactory implements WsMethodFactory {
     @Override
     public WsMethod create(Object instance, Method method) {
         WsMethod wsMethod = new WsMethod();
+
         wsMethod.setMethod(method);
         wsMethod.setInstance(instance);
-        wsMethod.setMethodName(method.getName());
+        checkIsDefaultMethod(instance, method, wsMethod);
+
         return wsMethod;
+    }
+
+    private void checkIsDefaultMethod(Object instance, Method method, WsMethod wsMethod) {
+        if (instance instanceof WsMethodProcessor wsMethodProcessor) {
+            wsMethod.setDefaultMethod(true);
+            wsMethod.setMethodName(wsMethodProcessor.getName());
+            return;
+        }
+        wsMethod.setMethodName(method.getName());
     }
 }

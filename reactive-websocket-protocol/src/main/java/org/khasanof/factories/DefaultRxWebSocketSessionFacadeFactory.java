@@ -23,7 +23,7 @@ public class DefaultRxWebSocketSessionFacadeFactory implements RxWebSocketSessio
         WebSocketSessionFacade facade = new WebSocketSessionFacade();
         facade.setWebSocketSession(session);
 
-        facade.setSessionId(session.getId());
+        facade.setWsSessionId(session.getId());
         facade.setOutputDataFlow(new OutputDataFlow());
         return facade;
     }

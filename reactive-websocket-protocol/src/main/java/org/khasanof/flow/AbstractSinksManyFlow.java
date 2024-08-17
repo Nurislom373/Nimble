@@ -10,12 +10,13 @@ import reactor.core.publisher.Sinks;
  */
 public abstract class AbstractSinksManyFlow<T> {
 
+    protected final Sinks.EmitFailureHandler RETRY_NON_SERIALIZED = (signalType, emitResult) -> true;
     protected final Sinks.Many<T> sink;
 
     public AbstractSinksManyFlow() {
         this.sink = Sinks.many()
                 .multicast()
-                .onBackpressureBuffer();
+                .onBackpressureBuffer(256, false);
     }
 
     public AbstractSinksManyFlow(Sinks.Many<T> sink) {
@@ -43,7 +44,7 @@ public abstract class AbstractSinksManyFlow<T> {
      * @param message
      */
     public void emitNext(T message) {
-        this.sink.emitNext(message, Sinks.EmitFailureHandler.FAIL_FAST);
+        this.sink.emitNext(message, RETRY_NON_SERIALIZED);
     }
 
     /**
@@ -52,7 +53,7 @@ public abstract class AbstractSinksManyFlow<T> {
      * @param emitFailureHandler
      */
     public void emitNext(T message, Sinks.EmitFailureHandler emitFailureHandler) {
-        this.sink.emitNext(message, emitFailureHandler);
+        this.sink.tryEmitNext(message);
     }
 
     /**

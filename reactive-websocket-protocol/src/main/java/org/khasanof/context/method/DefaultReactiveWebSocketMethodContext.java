@@ -43,6 +43,7 @@ public class DefaultReactiveWebSocketMethodContext implements ReactiveWebSocketM
      */
     @Override
     public boolean existMethod(String methodName) {
+        System.out.println("methodMap = " + methodMap.keySet());
         return this.methodMap.containsKey(methodName);
     }
 

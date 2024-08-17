@@ -11,12 +11,12 @@ public interface ReactiveWebsocketMessageTemplate {
      *
      * @param message
      */
-    void sendMessageOnlyUser(Object message);
+    void sendMessage(Object message);
 
     /**
      *
      * @param sessionId
      * @param message
      */
-    void sendMessageOnlyUser(String sessionId, Object message);
+    void sendMessage(String sessionId, Object message);
 }

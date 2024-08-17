@@ -21,23 +21,30 @@ public interface ReactiveWebsocketSessionContext {
 
     /**
      *
-     * @param sessionId
+     * @param wsSessionId
      * @return
      */
-    boolean existSession(String sessionId);
+    boolean existSession(String wsSessionId);
 
     /**
      *
-     * @param sessionId
+     * @param wsSessionId
      * @return
      */
-    Optional<WebSocketSessionFacade> getSession(String sessionId);
+    boolean isSubscribed(String wsSessionId);
 
     /**
      *
-     * @param sessionId
+     * @param wsSessionId
+     * @return
      */
-    void removeSession(String sessionId);
+    Optional<WebSocketSessionFacade> getSession(String wsSessionId);
+
+    /**
+     *
+     * @param wsSessionId
+     */
+    void removeSession(String wsSessionId);
 
     /**
      *
