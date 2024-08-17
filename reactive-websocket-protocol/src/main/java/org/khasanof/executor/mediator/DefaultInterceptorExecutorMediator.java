@@ -2,7 +2,6 @@ package org.khasanof.executor.mediator;
 
 import org.khasanof.executor.interceptor.ExecutorInterceptor;
 import org.khasanof.model.method.WsMethod;
-import org.khasanof.model.ws.WsRequest;
 import org.khasanof.model.ws.WsRequestSession;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -19,12 +18,12 @@ import java.util.Set;
  * @since 6/22/2024 6:59 PM
  */
 @Component
-public class DefaultExecutorInterceptorMediator implements ExecutorInterceptorMediator, InitializingBean {
+public class DefaultInterceptorExecutorMediator implements InterceptorExecutorMediator, InitializingBean {
 
     private final ApplicationContext applicationContext;
     private final Set<ExecutorInterceptor> executorInterceptors = new LinkedHashSet<>();
 
-    public DefaultExecutorInterceptorMediator(ApplicationContext applicationContext) {
+    public DefaultInterceptorExecutorMediator(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 

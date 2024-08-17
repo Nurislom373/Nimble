@@ -2,9 +2,8 @@ package org.khasanof.executor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.khasanof.executor.mediator.ExecutorInterceptorMediator;
+import org.khasanof.executor.mediator.InterceptorExecutorMediator;
 import org.khasanof.model.method.WsMethod;
-import org.khasanof.model.ws.WsRequest;
 import org.khasanof.model.ws.WsRequestSession;
 import org.khasanof.service.WsMethodService;
 import org.springframework.stereotype.Component;
@@ -25,15 +24,15 @@ public class DefaultReactiveWebSocketMethodExecutor implements ReactiveWebSocket
 
     private final ObjectMapper objectMapper;
     private final WsMethodService wsMethodService;
-    private final ExecutorInterceptorMediator executorInterceptorMediator;
+    private final InterceptorExecutorMediator interceptorExecutorMediator;
 
     public DefaultReactiveWebSocketMethodExecutor(ObjectMapper objectMapper,
                                                   WsMethodService wsMethodService,
-                                                  ExecutorInterceptorMediator executorInterceptorMediator) {
+                                                  InterceptorExecutorMediator interceptorExecutorMediator) {
 
         this.objectMapper = objectMapper;
         this.wsMethodService = wsMethodService;
-        this.executorInterceptorMediator = executorInterceptorMediator;
+        this.interceptorExecutorMediator = interceptorExecutorMediator;
     }
 
     /**
@@ -43,7 +42,7 @@ public class DefaultReactiveWebSocketMethodExecutor implements ReactiveWebSocket
      */
     @Override
     public Mono<Void> execute(WsMethod wsMethod, Mono<WsRequestSession> request) {
-        if (executorInterceptorMediator.preIntercept(wsMethod, request)) {
+        if (interceptorExecutorMediator.preIntercept(wsMethod, request)) {
             return executeInternal(wsMethod, request);
         }
         return Mono.empty();
@@ -62,7 +61,7 @@ public class DefaultReactiveWebSocketMethodExecutor implements ReactiveWebSocket
         Method method = wsMethod.getMethod();
         if (method.trySetAccessible()) {
             Mono<Void> result = tryExecute(wsMethod, request, method);
-            executorInterceptorMediator.postIntercept(wsMethod, request, result);
+            interceptorExecutorMediator.postIntercept(wsMethod, request, result);
             return result;
         }
         throw new RuntimeException("Method not access!");

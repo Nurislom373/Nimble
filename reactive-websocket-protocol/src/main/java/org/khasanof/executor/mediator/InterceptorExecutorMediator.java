@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
  * @see org.khasanof.executor.mediator
  * @since 6/22/2024 6:58 PM
  */
-public interface ExecutorInterceptorMediator {
+public interface InterceptorExecutorMediator {
 
     /**
      *
