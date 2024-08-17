@@ -1,2 +1,2 @@
-1. Add Subscribe Method
-2. Check Subscriber
+1. Add Subscribe Method✅
+2. Check Subscriber✅

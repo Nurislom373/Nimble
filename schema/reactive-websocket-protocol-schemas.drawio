@@ -1,0 +1,25 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.5 Chrome/126.0.6478.183 Electron/31.3.0 Safari/537.36" version="24.7.5">
+  <diagram name="Subscribe-Process" id="Fh5R_1AITpQHecgnAR2M">
+    <mxGraphModel dx="1195" dy="697" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aAiIX00r0vTyw9RRdoOd-3" value="Client" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="60" width="920" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="aAiIX00r0vTyw9RRdoOd-4" value="SubscriberRequest" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="aAiIX00r0vTyw9RRdoOd-3">
+          <mxGeometry x="70" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aAiIX00r0vTyw9RRdoOd-5" value="RxWsPro Provider&amp;nbsp;" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="325" width="920" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="aAiIX00r0vTyw9RRdoOd-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="aAiIX00r0vTyw9RRdoOd-5">
+          <mxGeometry x="70" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aAiIX00r0vTyw9RRdoOd-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="aAiIX00r0vTyw9RRdoOd-4" target="aAiIX00r0vTyw9RRdoOd-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
