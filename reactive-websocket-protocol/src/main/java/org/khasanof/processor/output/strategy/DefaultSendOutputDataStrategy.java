@@ -42,6 +42,7 @@ public class DefaultSendOutputDataStrategy implements SendOutputDataStrategy {
         reactiveWebsocketSessionContext.getSessions()
                 .stream()
                 .peek(webSocketSessionFacade -> System.out.println("webSocketSessionFacade = " + webSocketSessionFacade))
+                .filter(WebSocketSessionFacade::isSubscribe)
                 .map(WebSocketSessionFacade::getOutputDataFlow)
                 .forEach(outputDataFlow -> outputDataFlow.emitNext(webSocketMessage));
     }
@@ -54,6 +55,7 @@ public class DefaultSendOutputDataStrategy implements SendOutputDataStrategy {
     @Override
     public void send(String sessionId, Object message) {
         reactiveWebsocketSessionContext.getSession(sessionId)
+                .filter(WebSocketSessionFacade::isSubscribe)
                 .map(WebSocketSessionFacade::getOutputDataFlow)
                 .ifPresent(outputDataFlow -> {
                     WebSocketMessage webSocketMessage = toWebSocketMessage(message);
